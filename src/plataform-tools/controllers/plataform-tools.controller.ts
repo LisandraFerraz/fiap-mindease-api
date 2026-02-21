@@ -6,10 +6,10 @@ import { PlataformToolsDTO } from '../dto/plataform.dto';
 export class PlataformToolsController {
   constructor(private plataformService: PlataformService) {}
 
-  @Post('criar-ferramentas')
-  async createPlataformTools(@Body() body: PlataformToolsDTO) {
-    return await this.plataformService.createPlataformTool(body);
-  }
+  // @Post('criar-ferramentas')
+  // async createPlataformTools(@Body() body: PlataformToolsDTO) {
+  //   return await this.plataformService.createPlataformTool(body);
+  // }
 
   @Delete(':id/deletar-ferramentas')
   async deletePlataformTools(@Param('id') id: string) {

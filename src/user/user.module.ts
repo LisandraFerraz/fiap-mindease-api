@@ -3,9 +3,13 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schema/user/user.schema';
+import { PlataformToolsDataModule } from 'src/plataform-tools/PlataformTools.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
+  imports: [
+    PlataformToolsDataModule,
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+  ],
   providers: [UserService],
   controllers: [UserController],
 })

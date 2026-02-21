@@ -32,5 +32,6 @@ import { ChecklistService } from './services/checklist.service';
     StickyNoteController,
     ChecklistController,
   ],
+  exports: [PlataformService],
 })
 export class PlataformToolsDataModule {}

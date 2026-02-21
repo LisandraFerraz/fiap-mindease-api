@@ -21,8 +21,8 @@ export class UserService {
     if (emailExists) {
       throw new ConflictException('Endereço de e-mail já existe na base.');
     }
-    const response = await this.userModel.create(user);
-    return response;
+
+    return await this.userModel.create(user);
   }
 
   async listAllUsers(): Promise<User[]> {

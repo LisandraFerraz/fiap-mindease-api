@@ -5,6 +5,9 @@ import { Document } from 'mongoose';
   timestamps: true,
 })
 export class User {
+  // @Prop()
+  // _id: string;
+
   @Prop()
   nome: string;
 
