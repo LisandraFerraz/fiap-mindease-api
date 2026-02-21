@@ -9,6 +9,8 @@ import { PomodoroController } from './controllers/pomodoro.controller';
 import { KanbanService } from './services/kanban.service';
 import { StickyNoteService } from './services/sticky-note.service';
 import { StickyNoteController } from './controllers/sticky-note.controller';
+import { ChecklistController } from './controllers/checklist.controller';
+import { ChecklistService } from './services/checklist.service';
 
 @Module({
   imports: [
@@ -21,12 +23,14 @@ import { StickyNoteController } from './controllers/sticky-note.controller';
     PomodoroService,
     KanbanService,
     StickyNoteService,
+    ChecklistService,
   ],
   controllers: [
     PlataformToolsController,
     PomodoroController,
     KanbanController,
     StickyNoteController,
+    ChecklistController,
   ],
 })
 export class PlataformToolsDataModule {}

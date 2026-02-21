@@ -24,6 +24,6 @@ export class PlataformToolSchema {
   checklist: ChecklistSchema[];
 }
 
-
 export type PlataformDocument = PlataformToolSchema & Document;
-export const PlataformSchema = SchemaFactory.createForClass(PlataformToolSchema);
+export const PlataformSchema =
+  SchemaFactory.createForClass(PlataformToolSchema);

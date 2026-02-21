@@ -21,7 +21,7 @@ export class ChecklistDTO {
   data: ChecklistDataDTO[];
 }
 
-class ChecklistDataDTO {
+export class ChecklistDataDTO {
   @IsString()
   @IsNotEmpty()
   id: string;
