@@ -5,7 +5,6 @@ import {
   Param,
   Post,
   Put,
-  Request,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -25,14 +24,12 @@ export class UserController {
   @Post('register')
   async registerUser(
     @Body() user: RegisterUserDTO | any,
-  ): Promise<PlataformToolsDTO> {
+  ): Promise<{ message: string }> {
     const userResponse: any = await this.userService.registerUser(user);
 
-    const plataformTools = await this.plataformService.createPlataformTool(
-      userResponse._id.toString(),
-    );
+    await this.plataformService.createPlataformTool(userResponse.userId);
 
-    return plataformTools;
+    return { message: 'Usuário registrado com sucesso.' };
   }
 
   @Get()

@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { PlataformService } from '../services/plataform-tools.service';
-import { PlataformToolsDTO } from '../dto/plataform.dto';
 
 @Controller('tools')
 export class PlataformToolsController {
