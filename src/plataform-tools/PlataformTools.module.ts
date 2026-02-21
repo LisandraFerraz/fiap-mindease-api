@@ -7,6 +7,8 @@ import { PomodoroService } from './services/pomodoro.service';
 import { KanbanController } from './controllers/kanban.controller';
 import { PomodoroController } from './controllers/pomodoro.controller';
 import { KanbanService } from './services/kanban.service';
+import { StickyNoteService } from './services/sticky-note.service';
+import { StickyNoteController } from './controllers/sticky-note.controller';
 
 @Module({
   imports: [
@@ -14,7 +16,17 @@ import { KanbanService } from './services/kanban.service';
       { name: 'PlataformToolSchema', schema: PlataformSchema },
     ]),
   ],
-  providers: [PlataformService, PomodoroService, KanbanService],
-  controllers: [PlataformToolsController, PomodoroController, KanbanController],
+  providers: [
+    PlataformService,
+    PomodoroService,
+    KanbanService,
+    StickyNoteService,
+  ],
+  controllers: [
+    PlataformToolsController,
+    PomodoroController,
+    KanbanController,
+    StickyNoteController,
+  ],
 })
 export class PlataformToolsDataModule {}
