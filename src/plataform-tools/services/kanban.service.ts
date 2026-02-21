@@ -2,16 +2,16 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PlataformToolSchema } from '../plataform-tools.schema/plataform-tools.schema';
 import mongoose from 'mongoose';
-import { PomodoroDataDTO } from '../dto/pomodoro.dto';
+import { KanbanDataDTO } from '../dto/kanban.dto';
 
 @Injectable()
-export class PomodoroService {
+export class KanbanService {
   constructor(
     @InjectModel(PlataformToolSchema.name)
     private plataformModel: mongoose.Model<PlataformToolSchema>,
   ) {}
 
-  async getAllPomodoroTodos(id: string) {
+  async getAllKanbanItems(id: string) {
     const data = await this.plataformModel.findById(id);
 
     if (!data)
@@ -19,10 +19,10 @@ export class PomodoroService {
         `Conjunto de ferramentas não localizada. ID ${id}`,
       );
 
-    return await { pomodoroData: data.pomodoroData };
+    return await { kanbanData: data.kanbanData };
   }
 
-  async addPomodoroTodo(id: string, dataBody: PomodoroDataDTO) {
+  async addKanbanItem(id: string, dataBody: KanbanDataDTO) {
     const data = await this.plataformModel.findById(id);
 
     if (!data) {
@@ -33,17 +33,17 @@ export class PomodoroService {
 
     const body = {
       ...data.toObject(),
-      pomodoroData: [...data.pomodoroData, dataBody],
+      kanbanData: [...data.kanbanData, dataBody],
     };
 
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { pomodoroData: data.pomodoroData };
+        if (data) return { kanbanData: data.kanbanData };
       });
   }
 
-  async updatePomodoroTodo(id: string, dataBody: PomodoroDataDTO) {
+  async updateKanbanItem(id: string, dataBody: KanbanDataDTO) {
     const data = await this.plataformModel.findById(id);
 
     if (!data) {
@@ -52,29 +52,31 @@ export class PomodoroService {
       );
     }
 
-    const todoTarget = data.pomodoroData.find((td) => td.id === dataBody.id);
+    const itemTarget = data.kanbanData.find((kbi) => kbi.id === dataBody.id);
 
-    if (!todoTarget) {
-      throw new NotFoundException(`Item de To-do não encontrado. ID ${id}`);
+    if (!itemTarget) {
+      throw new NotFoundException(
+        `Item do Kanban ${id} não encontrado. Item ID: ${dataBody.id}`,
+      );
     }
 
-    const updatedTodos = data.pomodoroData.filter(
-      (td) => td.id !== todoTarget.id,
+    const updatedTodos = data.kanbanData.filter(
+      (kbi) => kbi.id !== itemTarget.id,
     );
 
     const body = {
       ...data.toObject(),
-      pomodoroData: [...updatedTodos, dataBody],
+      kanbanData: [...updatedTodos, dataBody],
     };
 
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { pomodoroData: data.pomodoroData };
+        if (data) return { kanbanData: data.kanbanData };
       });
   }
 
-  async deletePomodorTodo(id: string, todoId) {
+  async deleteKanbanItem(id: string, todoId) {
     const data = await this.plataformModel.findById(id);
 
     if (!data) {
@@ -83,25 +85,25 @@ export class PomodoroService {
       );
     }
 
-    const todoTarget = data.pomodoroData.find((td) => td.id === todoId);
+    const itemTarget = data.kanbanData.find((kbi) => kbi.id === todoId);
 
-    if (!todoTarget) {
-      throw new NotFoundException(`Item de To-do não encontrado. ID ${id}`);
+    if (!itemTarget) {
+      throw new NotFoundException(`Item de Kanban não encontrado. ID ${id}`);
     }
 
-    const updatedTodos = data.pomodoroData.filter(
-      (td) => td.id !== todoTarget.id,
+    const updatedTodos = data.kanbanData.filter(
+      (kbi) => kbi.id !== itemTarget.id,
     );
 
     const body = {
       ...data.toObject(),
-      pomodoroData: [...updatedTodos],
+      kanbanData: [...updatedTodos],
     };
 
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { pomodoroData: data.pomodoroData };
+        if (data) return { kanbanData: data.kanbanData };
       });
   }
 }

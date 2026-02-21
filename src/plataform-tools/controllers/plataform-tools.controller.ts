@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
-import { PomodoroService } from './services/pomodoro.service';
-import { PlataformService } from './services/plataform-tools.service';
-import { PlataformToolsDTO } from './dto/plataform.dto';
+import { PomodoroService } from '../services/pomodoro.service';
+import { PlataformService } from '../services/plataform-tools.service';
+import { PlataformToolsDTO } from '../dto/plataform.dto';
 
 @Controller('plataform-tools')
 export class PlataformToolsController {

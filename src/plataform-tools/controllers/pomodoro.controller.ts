@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { PomodoroService } from './services/pomodoro.service';
-import { PomodoroDataDTO } from './dto/pomodoro.dto';
+import { PomodoroService } from '../services/pomodoro.service';
+import { PomodoroDataDTO } from '../dto/pomodoro.dto';
 
 @Controller('pomodoro')
 export class PomodoroController {
