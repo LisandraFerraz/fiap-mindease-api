@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PlataformToolSchema } from '../plataform-tools.schema/plataform-tools.schema';
 import mongoose from 'mongoose';
 import { PomodoroDataSchema } from '../plataform-tools.schema/pomodoro.schema';
+import { PomodoroDataDTO } from '../dto/pomodoro.dto';
 
 @Injectable()
 export class PomodoroService {
@@ -19,9 +20,7 @@ export class PomodoroService {
         `Conjunto de ferramentas não localizada. ID ${id}`,
       );
 
-    const pomodoroData = await data.pomodoroData;
-
-    return await pomodoroData;
+    return await { pomodoroData: data.pomodoroData };
   }
 
   async addPomodoroTodo(id: string, dataBody: PomodoroDataSchema) {
@@ -38,7 +37,11 @@ export class PomodoroService {
       pomodoroData: [...data.pomodoroData, dataBody],
     };
 
-    return await this.plataformModel.findByIdAndUpdate(id, body, { new: true });
+    return this.plataformModel
+      .findByIdAndUpdate(id, body, { new: true })
+      .then((data) => {
+        if (data) return { pomodoroData: data.pomodoroData };
+      });
   }
 
   async updatePomodoroTodo(id: string, dataBody: PomodoroDataSchema) {
@@ -65,7 +68,11 @@ export class PomodoroService {
       pomodoroData: [...updatedTodos, dataBody],
     };
 
-    return await this.plataformModel.findByIdAndUpdate(id, body, { new: true });
+    return this.plataformModel
+      .findByIdAndUpdate(id, body, { new: true })
+      .then((data) => {
+        if (data) return { pomodoroData: data.pomodoroData };
+      });
   }
 
   async deletePomodorTodo(id: string, todoId) {
@@ -92,6 +99,10 @@ export class PomodoroService {
       pomodoroData: [...updatedTodos],
     };
 
-    return await this.plataformModel.findByIdAndUpdate(id, body, { new: true });
+    return this.plataformModel
+      .findByIdAndUpdate(id, body, { new: true })
+      .then((data) => {
+        if (data) return { pomodoroData: data.pomodoroData };
+      });
   }
 }

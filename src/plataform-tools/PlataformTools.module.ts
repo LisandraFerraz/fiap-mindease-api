@@ -4,6 +4,7 @@ import { PlataformSchema } from './plataform-tools.schema/plataform-tools.schema
 import { PlataformToolsController } from './plataform-tools.controller';
 import { PlataformService } from './services/plataform-tools.service';
 import { PomodoroService } from './services/pomodoro.service';
+import { PomodoroController } from './pomodoro.controller';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { PomodoroService } from './services/pomodoro.service';
     ]),
   ],
   providers: [PlataformService, PomodoroService],
-  controllers: [PlataformToolsController],
+  controllers: [PlataformToolsController, PomodoroController],
 })
 export class PlataformToolsDataModule {}
