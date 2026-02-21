@@ -10,21 +10,21 @@ import {
 import { ChecklistService } from '../services/checklist.service';
 import { ChecklistDataDTO, ChecklistDTO } from '../dto/checklist.dto';
 
-@Controller('checklist')
+@Controller('tools')
 export class ChecklistController {
   constructor(private checklistService: ChecklistService) {}
 
-  @Get(':id')
+  @Get(':id/checklist')
   async getAllChecklistItems(@Param('id') id: string) {
     return await this.checklistService.getAllChecklistItems(id);
   }
 
-  @Post(':id/nova-checklist')
+  @Post(':id/checklist/nova-checklist')
   async addChecklistItem(@Body() body: ChecklistDTO, @Param('id') id: string) {
     return await this.checklistService.addChecklistItem(id, body);
   }
 
-  @Patch(':id/atualiza-checklist/:checklistId')
+  @Patch(':id/checklist/atualiza-checklist/:checklistId')
   async updateChecklist(
     @Body() body: ChecklistDTO,
     @Param('id') id: string,
@@ -33,7 +33,7 @@ export class ChecklistController {
     return await this.checklistService.updateChecklist(id, checklistId, body);
   }
 
-  @Patch(':id/atualiza-checklist/:checklistId/item/:itemId')
+  @Patch(':id/checklist/atualiza-checklist/:checklistId/item/:itemId')
   async updateChecklistItem(
     @Param('id') id: string,
     @Param('checklistId') checklistId: string,
@@ -48,12 +48,12 @@ export class ChecklistController {
     );
   }
 
-  @Delete(':id/deleta-checklist/:clId')
+  @Delete(':id/checklist/deleta-checklist/:clId')
   async deleteChecklist(@Param('id') id: string, @Param('clId') clId: string) {
     return await this.checklistService.deleteChecklist(id, clId);
   }
 
-  @Delete(':id/deleta-checklist/:clId/item/:itemId')
+  @Delete(':id/checklist/deleta-checklist/:clId/item/:itemId')
   async deleteChecklistItem(
     @Param('id') id: string,
     @Param('clId') clId: string,

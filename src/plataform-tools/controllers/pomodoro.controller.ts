@@ -10,16 +10,16 @@ import {
 import { PomodoroService } from '../services/pomodoro.service';
 import { PomodoroDataDTO } from '../dto/pomodoro.dto';
 
-@Controller('pomodoro')
+@Controller('tools')
 export class PomodoroController {
   constructor(private pomodoroService: PomodoroService) {}
 
-  @Get(':id')
+  @Get(':id/pomodoro')
   async getAllPomodoroTodos(@Param('id') id: string) {
     return await this.pomodoroService.getAllPomodoroTodos(id);
   }
 
-  @Post(':id/novo-pomodoro-todo')
+  @Post(':id/pomodoro/novo-pomodoro-todo')
   async addPomodoroTodo(
     @Body() body: PomodoroDataDTO,
     @Param('id') id: string,
@@ -27,7 +27,7 @@ export class PomodoroController {
     return await this.pomodoroService.addPomodoroTodo(id, body);
   }
 
-  @Patch(':id/atualiza-pomodoro-todo')
+  @Patch(':id/pomodoro/atualiza-pomodoro-todo')
   async updatePomodoroTodo(
     @Body() body: PomodoroDataDTO,
     @Param('id') id: string,
@@ -35,7 +35,7 @@ export class PomodoroController {
     return await this.pomodoroService.updatePomodoroTodo(id, body);
   }
 
-  @Delete(':id/deleta-pomodoro-todo/:todoId')
+  @Delete(':id/pomodoro/deleta-pomodoro-todo/:todoId')
   async deletePomodorTodo(
     @Param('id') id: string,
     @Param('todoId') todoId: string,

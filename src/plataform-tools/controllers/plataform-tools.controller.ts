@@ -1,16 +1,11 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
-import { PomodoroService } from '../services/pomodoro.service';
 import { PlataformService } from '../services/plataform-tools.service';
 import { PlataformToolsDTO } from '../dto/plataform.dto';
 
-@Controller('plataform-tools')
+@Controller('tools')
 export class PlataformToolsController {
-  constructor(
-    private plataformService: PlataformService,
-    private pomodoroService: PomodoroService,
-  ) {}
+  constructor(private plataformService: PlataformService) {}
 
-  // -- INICIO PLATAFORMA -- //
   @Post('criar-ferramentas')
   async createPlataformTools(@Body() body: PlataformToolsDTO) {
     return await this.plataformService.createPlataformTool(body);
@@ -20,5 +15,4 @@ export class PlataformToolsController {
   async deletePlataformTools(@Param('id') id: string) {
     return await this.plataformService.deletePlataformTool(id);
   }
-  // -- FIM PLATAFORMA -- //
 }
