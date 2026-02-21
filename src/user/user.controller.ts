@@ -13,6 +13,7 @@ import { RegisterUserDTO } from './dto/register-user.dto';
 import { User } from './schema/user/user.schema';
 import { JWTAuthGuard } from './../auth/jwt-auth.guard';
 import { PlataformService } from 'src/plataform-tools/services/plataform-tools.service';
+import { PlataformToolsDTO } from 'src/plataform-tools/dto/plataform.dto';
 
 @Controller('user')
 export class UserController {
@@ -24,14 +25,14 @@ export class UserController {
   @Post('register')
   async registerUser(
     @Body() user: RegisterUserDTO | any,
-  ): Promise<RegisterUserDTO> {
+  ): Promise<PlataformToolsDTO> {
     const userResponse: any = await this.userService.registerUser(user);
 
-    await this.plataformService.createPlataformTool(
+    const plataformTools = await this.plataformService.createPlataformTool(
       userResponse._id.toString(),
     );
 
-    return userResponse;
+    return plataformTools;
   }
 
   @Get()

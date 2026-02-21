@@ -8,10 +8,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './../user/schema/user/user.schema';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PlataformToolsDataModule } from 'src/plataform-tools/PlataformTools.module';
 
 @Module({
   imports: [
     UserModule,
+    PlataformToolsDataModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

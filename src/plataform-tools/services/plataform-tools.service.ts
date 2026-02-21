@@ -11,6 +11,31 @@ export class PlataformService {
     private plataformModel: mongoose.Model<PlataformToolSchema>,
   ) {}
 
+  async getPlataformToolsByUserID(userId: string) {
+    const platTarget: any = await this.plataformModel.findOne({
+      usuarioId: userId,
+    });
+
+    if (!platTarget) {
+      throw new NotFoundException(
+        `Usuario id ${userId} não foi encontrado. Não foi possível localizar suas ferramentas da plataforma.`,
+      );
+    }
+
+    platTarget.toObject();
+
+    const data = {
+      checklist: platTarget.checklist,
+      kanbanData: platTarget.kanbanData,
+      pomodoroData: platTarget.pomodoroData,
+      stickyNotes: platTarget.stickyNotes,
+      usuarioId: platTarget.usuarioId,
+      platToolsId: platTarget._id,
+    };
+
+    return data;
+  }
+
   async createPlataformTool(userId: string) {
     const userAssociated = await this.plataformModel.findOne({
       usuarioId: userId,

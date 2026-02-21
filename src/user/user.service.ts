@@ -15,14 +15,16 @@ export class UserService {
     private userModel: mongoose.Model<User>,
   ) {}
 
-  async registerUser(user: RegisterUserDTO): Promise<RegisterUserDTO> {
+  async registerUser(user: RegisterUserDTO): Promise<{ message: string }> {
     const emailExists = await this.userModel.findOne({ email: user.email });
 
     if (emailExists) {
       throw new ConflictException('Endereço de e-mail já existe na base.');
     }
 
-    return await this.userModel.create(user);
+    await this.userModel.create(user);
+
+    return { message: 'Usuário criado!' };
   }
 
   async listAllUsers(): Promise<User[]> {
