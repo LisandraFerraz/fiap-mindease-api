@@ -36,17 +36,21 @@ export class KanbanService {
       );
     }
 
+    const idExists = data.kanbanData.find((id) => id.id === dataBody.id);
+
+    if (idExists) {
+      throw new NotFoundException(`Já um item com esse ID: ${dataBody.id}`);
+    }
+
     const body = {
       ...data.toObject(),
       kanbanData: [...data.kanbanData, dataBody],
     };
 
-    const kanbanColumns = FormatKanbanColumns(data.kanbanData);
-
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return kanbanColumns;
+        if (data) return FormatKanbanColumns(body.kanbanData);
       });
   }
 
@@ -76,7 +80,7 @@ export class KanbanService {
       kanbanData: [...updatedTodos, dataBody],
     };
 
-    const kanbanColumns = FormatKanbanColumns(data.kanbanData);
+    const kanbanColumns = FormatKanbanColumns(body.kanbanData);
 
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
@@ -108,7 +112,7 @@ export class KanbanService {
       ...data.toObject(),
       kanbanData: [...updatedTodos],
     };
-    const kanbanColumns = FormatKanbanColumns(data.kanbanData);
+    const kanbanColumns = FormatKanbanColumns(body.kanbanData);
 
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })

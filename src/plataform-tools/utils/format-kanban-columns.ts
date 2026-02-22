@@ -3,27 +3,23 @@ import { KanbanDataDTO } from '../dto/kanban.dto';
 export function FormatKanbanColumns(data: KanbanDataDTO[]) {
   const columns = [
     {
-      id: 1,
+      id: 'BACKLOG',
       title: 'Backlog',
-      status: 'BACKLOG',
       items: data.filter((ki) => ki.status === 'BACKLOG') || [],
     },
     {
-      id: 2,
+      id: 'AFAZER',
       title: 'A fazer',
-      status: 'AFAZER',
       items: data.filter((ki) => ki.status === 'AFAZER') || [],
     },
     {
-      id: 3,
+      id: 'ANDAMENTO',
       title: 'Em progresso',
-      status: 'ANDAMENTO',
       items: data.filter((ki) => ki.status === 'ANDAMENTO') || [],
     },
     {
-      id: 4,
+      id: 'CONCLUIDO',
       title: 'Concluído',
-      status: 'CONCLUIDO',
       items: data.filter((ki) => ki.status === 'CONCLUIDO') || [],
     },
   ];
