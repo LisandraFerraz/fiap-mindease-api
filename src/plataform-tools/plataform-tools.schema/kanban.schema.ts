@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { kanbanStatus } from '../utils/types';
+import { kanbanPriority, kanbanStatus } from '../utils/types';
 
 @Schema({
   timestamps: true,
@@ -13,6 +13,9 @@ export class KanbanDataSchema {
 
   @Prop()
   status: kanbanStatus;
+
+  @Prop()
+  priority: kanbanPriority;
 
   @Prop()
   dueDate: string;

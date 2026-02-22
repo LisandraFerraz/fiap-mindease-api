@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { kanbanStatus } from '../utils/types';
+import { kanbanPriority, kanbanStatus } from '../utils/types';
 
 export class KanbanDataDTO {
   @IsString()
@@ -13,6 +13,10 @@ export class KanbanDataDTO {
   @IsString()
   @IsNotEmpty()
   status: kanbanStatus;
+
+  @IsString()
+  @IsNotEmpty()
+  priority: kanbanPriority;
 
   @IsString()
   @IsNotEmpty()

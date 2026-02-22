@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PlataformToolSchema } from '../plataform-tools.schema/plataform-tools.schema';
 import mongoose from 'mongoose';
 import { KanbanDataDTO } from '../dto/kanban.dto';
+import { FormatKanbanColumns } from '../utils/format-kanban-columns';
 
 @Injectable()
 export class KanbanService {
@@ -19,7 +20,11 @@ export class KanbanService {
         `Conjunto de ferramentas não localizada. ID ${id}`,
       );
 
-    return await { kanbanData: data.kanbanData };
+    const kanbanItems = data.kanbanData;
+
+    const kanbanColumns = FormatKanbanColumns(kanbanItems);
+
+    return kanbanColumns;
   }
 
   async addKanbanItem(id: string, dataBody: KanbanDataDTO) {
@@ -36,10 +41,12 @@ export class KanbanService {
       kanbanData: [...data.kanbanData, dataBody],
     };
 
+    const kanbanColumns = FormatKanbanColumns(data.kanbanData);
+
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { kanbanData: data.kanbanData };
+        if (data) return kanbanColumns;
       });
   }
 
@@ -69,10 +76,12 @@ export class KanbanService {
       kanbanData: [...updatedTodos, dataBody],
     };
 
+    const kanbanColumns = FormatKanbanColumns(data.kanbanData);
+
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { kanbanData: data.kanbanData };
+        if (data) return kanbanColumns;
       });
   }
 
@@ -99,11 +108,12 @@ export class KanbanService {
       ...data.toObject(),
       kanbanData: [...updatedTodos],
     };
+    const kanbanColumns = FormatKanbanColumns(data.kanbanData);
 
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { kanbanData: data.kanbanData };
+        if (data) return kanbanColumns;
       });
   }
 }

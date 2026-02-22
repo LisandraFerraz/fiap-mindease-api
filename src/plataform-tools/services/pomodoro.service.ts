@@ -19,7 +19,7 @@ export class PomodoroService {
         `Conjunto de ferramentas não localizada. ID ${id}`,
       );
 
-    return await { pomodoroData: data.pomodoroData };
+    return await data.pomodoroData;
   }
 
   async addPomodoroTodo(id: string, dataBody: PomodoroDataDTO) {
@@ -39,7 +39,7 @@ export class PomodoroService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { pomodoroData: data.pomodoroData };
+        if (data) return data.pomodoroData;
       });
   }
 
@@ -70,7 +70,7 @@ export class PomodoroService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { pomodoroData: data.pomodoroData };
+        if (data) return data.pomodoroData;
       });
   }
 
@@ -101,7 +101,7 @@ export class PomodoroService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { pomodoroData: data.pomodoroData };
+        if (data) return data.pomodoroData;
       });
   }
 }
