@@ -6,6 +6,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ChecklistData } from '../plataform-tools.schema/utils/checklist-data';
+import { stickyNoteColor } from '../utils/types';
 
 export class ChecklistDTO {
   @IsString()
@@ -15,6 +16,10 @@ export class ChecklistDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  color: stickyNoteColor;
 
   @ValidateNested()
   @IsNotEmpty()

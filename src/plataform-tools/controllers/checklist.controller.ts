@@ -20,8 +20,20 @@ export class ChecklistController {
   }
 
   @Post(':id/checklist/nova-checklist')
-  async addChecklistItem(@Body() body: ChecklistDTO, @Param('id') id: string) {
-    return await this.checklistService.addChecklistItem(id, body);
+  async createChecklistItem(
+    @Body() body: ChecklistDTO,
+    @Param('id') id: string,
+  ) {
+    return await this.checklistService.createChecklist(id, body);
+  }
+
+  @Post(':id/checklist/:checkid/novo-item')
+  async addChecklistItem(
+    @Body() body: ChecklistDataDTO,
+    @Param('id') id: string,
+    @Param('checkid') checkid: string,
+  ) {
+    return await this.checklistService.addChecklistItem(id, checkid, body);
   }
 
   @Patch(':id/checklist/atualiza-checklist/:checklistId')
