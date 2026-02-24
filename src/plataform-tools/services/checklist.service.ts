@@ -57,7 +57,7 @@ export class ChecklistService {
       );
     }
 
-    const targetChecklist = targetTools.checklist.find(
+    const targetChecklist = targetTools.checklist.some(
       (cl) => cl.id === checkid,
     );
 
@@ -65,28 +65,26 @@ export class ChecklistService {
       throw new NotFoundException(`Checklist não encontrada. ID ${checkid}`);
     }
 
-    const itemExists = targetChecklist.data.find(
-      (item) => item.id === dataBody.id,
-    );
+    const updatedChecklist = targetTools.checklist.map((cl) => {
+      if (cl.id !== checkid) return cl;
 
-    if (itemExists) {
-      throw new NotFoundException(
-        `Já existe um item com o ID ${dataBody.id} nessa checklist ${id}`,
-      );
-    }
+      const itemExists = cl.data.some((item) => item.id === dataBody.id);
 
-    const targetChecklistUpdated = {
-      ...targetChecklist,
-      data: [...targetChecklist.data, dataBody],
-    } as ChecklistDTO;
+      if (itemExists) {
+        throw new NotFoundException(
+          `Já existe um item com o ID ${dataBody.id} nessa checklist ${id}`,
+        );
+      }
 
-    const checklistsFiltered = targetTools.checklist.filter(
-      (cl) => cl.id !== checkid,
-    );
+      return {
+        ...cl,
+        data: [...cl.data, dataBody],
+      };
+    });
 
     const body = {
       ...targetTools.toObject(),
-      checklist: [...checklistsFiltered, targetChecklistUpdated],
+      checklist: updatedChecklist,
     } as PlataformToolsDTO;
 
     return this.plataformModel
@@ -117,19 +115,19 @@ export class ChecklistService {
       );
     }
 
-    const updatedChecklist: ChecklistDTO[] = data.checklist.filter(
-      (cl) => cl.id !== clTarget.id,
+    const updatedChecklist: ChecklistDTO[] = data.checklist.map((cl) =>
+      cl.id === checklistId
+        ? {
+            ...cl,
+            name: dataBody.name ?? cl.name,
+            color: dataBody.color ?? cl.color,
+          }
+        : cl,
     );
-
-    const withItems: ChecklistDTO = {
-      ...clTarget,
-      name: dataBody.name,
-      color: dataBody.color,
-    };
 
     const body = {
       ...data.toObject(),
-      checklist: [...updatedChecklist, withItems],
+      checklist: updatedChecklist,
     };
 
     return this.plataformModel
@@ -153,37 +151,36 @@ export class ChecklistService {
       );
     }
 
-    const clTarget = data.checklist.find((cl) => cl.id === checklistId);
+    const checklistExists = data.checklist.some((cl) => cl.id === checklistId);
 
-    if (!clTarget) {
+    if (!checklistExists) {
       throw new NotFoundException(
-        `Checklist ${id} não encontrado. Item ID: ${checklistId}`,
+        `Checklist não encontrado. Item ID: ${checklistId}`,
       );
     }
 
-    const itemTarget = clTarget.data.find((td) => td.id === itemId);
+    const updatedChecklist = data.checklist.map((cl) => {
+      if (cl.id !== checklistId) return cl;
 
-    if (!itemTarget) {
-      throw new NotFoundException(
-        `Item de checklist ${dataBody.id} não encontrado. Item ID: ${itemId}`,
-      );
-    }
+      const itemExists = cl.data.some((item) => item.id === itemId);
 
-    // .data
-    const newData = clTarget.data.filter((item) => item.id !== itemTarget.id);
+      if (!itemExists) {
+        throw new NotFoundException(
+          `Item de checklist não encontrado. Item ID: ${itemId}`,
+        );
+      }
 
-    const updatedTargetChecklist = {
-      ...clTarget,
-      data: [...newData, dataBody],
-    };
-
-    const filteredChecklist = data.checklist.filter(
-      (cl) => cl.id !== clTarget.id,
-    );
+      return {
+        ...cl,
+        data: cl.data.map((item) =>
+          item.id === itemId ? { ...item, ...dataBody } : item,
+        ),
+      };
+    });
 
     const body = {
       ...data.toObject(),
-      checklist: [...filteredChecklist, updatedTargetChecklist],
+      checklist: updatedChecklist,
     };
 
     return this.plataformModel
@@ -226,7 +223,7 @@ export class ChecklistService {
       });
   }
 
-  async deleteChecklistItem(id: string, checklistId, todoId) {
+  async deleteChecklistItem(id: string, checklistId: string, todoId: string) {
     const data = await this.plataformModel.findById(id);
 
     if (!data) {
@@ -235,36 +232,34 @@ export class ChecklistService {
       );
     }
 
-    const clTarget = data.checklist.find((cl) => cl.id === checklistId);
+    const checklistExists = data.checklist.some((cl) => cl.id === checklistId);
 
-    if (!clTarget) {
+    if (!checklistExists) {
       throw new NotFoundException(
         `Checklist não encontrado. ID ${checklistId}`,
       );
     }
 
-    const todoTarget = clTarget.data.find((td) => td.id === todoId);
+    const updatedChecklist = data.checklist.map((cl) => {
+      if (cl.id !== checklistId) return cl;
 
-    if (!todoTarget) {
-      throw new NotFoundException(
-        `Item to-do de checklist não encontrado. ID ${todoId}`,
-      );
-    }
+      const todoExists = cl.data.some((td) => td.id === todoId);
 
-    const newData = clTarget.data.filter((td) => td.id !== todoTarget.id);
+      if (!todoExists) {
+        throw new NotFoundException(
+          `Item to-do de checklist não encontrado. ID ${todoId}`,
+        );
+      }
 
-    const filteredChecklist = data.checklist.filter(
-      (cl) => cl.id !== clTarget.id,
-    );
-
-    const updatedTargetChecklist = {
-      ...clTarget,
-      data: [newData],
-    };
+      return {
+        ...cl,
+        data: cl.data.filter((td) => td.id !== todoId),
+      };
+    });
 
     const body = {
       ...data.toObject(),
-      checklist: [...filteredChecklist, updatedTargetChecklist],
+      checklist: updatedChecklist,
     };
 
     return this.plataformModel

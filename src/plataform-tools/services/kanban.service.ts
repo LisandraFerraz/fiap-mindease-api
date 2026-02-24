@@ -71,13 +71,13 @@ export class KanbanService {
       );
     }
 
-    const updatedTodos = data.kanbanData.filter(
-      (kbi) => kbi.id !== itemTarget.id,
+    const updatedKanbanItems = data.kanbanData.map((item) =>
+      item.id === dataBody.id ? { ...item, ...dataBody } : item,
     );
 
     const body = {
       ...data.toObject(),
-      kanbanData: [...updatedTodos, dataBody],
+      kanbanData: updatedKanbanItems,
     };
 
     const kanbanColumns = FormatKanbanColumns(body.kanbanData);
