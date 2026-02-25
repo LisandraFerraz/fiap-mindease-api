@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { StickyNoteService } from '../services/sticky-note.service';
 import { StickyNoteDTO, StickyNotesGroupDTO } from '../dto/sticky-note.dto';
+import { v4 as generateUID } from 'uuid';
 
 @Controller('tools')
 export class StickyNoteController {
@@ -32,7 +33,22 @@ export class StickyNoteController {
     @Body() body: StickyNotesGroupDTO,
     @Param('id') id: string,
   ) {
-    return await this.stickyNoteService.createStickyNotesGroup(id, body);
+    await this.stickyNoteService.createStickyNotesGroup(id, body);
+
+    const stickyBody = {
+      id: generateUID(),
+      color: 'BLUE',
+      title: 'Novo post-it',
+      description: 'Sem descrição...',
+    } as StickyNoteDTO;
+
+    const newGroup = await this.stickyNoteService.addStickyNote(
+      id,
+      body.id,
+      stickyBody,
+    );
+
+    return newGroup;
   }
 
   @Post(':id/sticky-notes/:stickyGroupId/novo-sticky-note')

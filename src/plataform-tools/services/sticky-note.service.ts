@@ -53,11 +53,13 @@ export class StickyNoteService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { stickyNotes: data.stickyNotes };
+        if (data) {
+          return { stickyNotes: data.stickyNotes };
+        }
       });
   }
 
-  async addStickyNote(id: string, stickyId: string, dataBody: StickyNoteDTO) {
+  async addStickyNote(id: string, groupId: string, dataBody: StickyNoteDTO) {
     const targetTools = await this.plataformModel.findById(id);
 
     if (!targetTools) {
@@ -67,18 +69,18 @@ export class StickyNoteService {
     }
 
     const targetStickyNotesGroup = targetTools.stickyNotes.some(
-      (cl) => cl.id === stickyId,
+      (sg) => sg.id === groupId,
     );
 
     if (!targetStickyNotesGroup) {
       throw new NotFoundException(
-        `Grupo de post-its não encontrado. ID ${stickyId}`,
+        `Grupo de post-its não encontrado. ID ${groupId}`,
       );
     }
 
     const updatedStickyNotesGroup = targetTools.stickyNotes.map(
       (stickyNotesGroup) => {
-        if (stickyNotesGroup.id !== stickyId) return stickyNotesGroup;
+        if (stickyNotesGroup.id !== groupId) return stickyNotesGroup;
 
         const itemExists = stickyNotesGroup.data.some(
           (item) => item.id === dataBody.id,
@@ -122,7 +124,7 @@ export class StickyNoteService {
       );
     }
 
-    const snGroupTarget = data.stickyNotes.find(
+    const snGroupTarget = data.stickyNotes.some(
       (sn) => sn.id === stickyGroupId,
     );
 
@@ -137,10 +139,12 @@ export class StickyNoteService {
         sn.id === stickyGroupId
           ? {
               ...sn,
-              groupName: dataBody.groupName ?? sn.groupName,
+              groupName: dataBody.groupName,
             }
           : sn,
     );
+
+    console.log(updatedStickyNotesGroup);
 
     const body = {
       ...data.toObject(),
