@@ -1,7 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { PomodoroDataSchema } from './pomodoro.schema';
 import { KanbanDataSchema } from './kanban.schema';
-import { StickyNoteDataSchema } from './sticky-note.schema';
+import {
+  StickyNoteDataSchema,
+  StickyNotesGroupSchema,
+} from './sticky-note.schema';
 import { ChecklistSchema } from './checklist.schema';
 
 @Schema({
@@ -18,7 +21,7 @@ export class PlataformToolSchema {
   kanbanData: KanbanDataSchema[];
 
   @Prop()
-  stickyNotes: StickyNoteDataSchema[];
+  stickyNotes: StickyNotesGroupSchema[];
 
   @Prop()
   checklist: ChecklistSchema[];

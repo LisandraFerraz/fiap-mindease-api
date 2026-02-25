@@ -5,7 +5,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ChecklistDTO } from './checklist.dto';
-import { StickyNoteDTO } from './sticky-note.dto';
+import { StickyNoteDTO, StickyNotesGroupDTO } from './sticky-note.dto';
 import { KanbanDataDTO } from './kanban.dto';
 import { PomodoroDataDTO } from './pomodoro.dto';
 
@@ -24,7 +24,7 @@ export class PlataformToolsDTO {
 
   @ValidateNested()
   @IsOptional()
-  stickyNotes: StickyNoteDTO[];
+  stickyNotes: StickyNotesGroupDTO[];
 
   @ValidateNested()
   @IsOptional()
