@@ -14,4 +14,9 @@ export class AuthController {
     );
     return this.authService.loginUser(user);
   }
+
+  @Post('/verifica-senha')
+  async verificaSenha(@Body() body: { password: string; usuarioId: string }) {
+    return await this.authService.verificaSenha(body);
+  }
 }

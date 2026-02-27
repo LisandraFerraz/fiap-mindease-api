@@ -52,4 +52,17 @@ export class AuthService {
       usuarioId: payload.id,
     };
   }
+
+  async verificaSenha(body: { password: string; usuarioId: string }) {
+    const userTarget = await this.userModel.findById(body.usuarioId);
+
+    if (!userTarget)
+      throw new NotFoundException(
+        `Usuário não encontrato. ID ${body.usuarioId}`,
+      );
+
+    const passwordMatches = userTarget.password === body.password;
+    if (passwordMatches) return { result: 'VALIDO' };
+    else return { result: 'INVALIDO' };
+  }
 }

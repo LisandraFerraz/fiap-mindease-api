@@ -3,8 +3,8 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -12,7 +12,6 @@ import { RegisterUserDTO } from './dto/register-user.dto';
 import { User } from './schema/user/user.schema';
 import { JWTAuthGuard } from './../auth/jwt-auth.guard';
 import { PlataformService } from 'src/plataform-tools/services/plataform-tools.service';
-import { PlataformToolsDTO } from 'src/plataform-tools/dto/plataform.dto';
 
 @Controller('user')
 export class UserController {
@@ -43,11 +42,11 @@ export class UserController {
     return await this.userService.findUser(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateUserAccount(
     @Param('id') id: string,
-    @Body() updatedUser: User,
-  ): Promise<User> {
+    @Body() updatedUser: Partial<User>,
+  ) {
     return await this.userService.updateUserAccount(id, updatedUser);
   }
 }

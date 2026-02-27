@@ -41,16 +41,25 @@ export class UserService {
     return response;
   }
 
-  async updateUserAccount(id: string, updatedUser: User): Promise<User> {
-    const response = await this.userModel.findByIdAndUpdate(id, updatedUser, {
-      new: true,
-      runValidators: true,
-    });
+  async updateUserAccount(id: string, updateBody: Partial<User>) {
+    const userTarget = await this.userModel.findById(id);
 
-    if (!response) {
+    if (!userTarget) {
       throw new NotFoundException(`Usuário id ${id} não foi encontrado.`);
     }
+    const userUpdated = {
+      ...userTarget,
+      updateBody,
+    };
 
-    return response;
+    return this.userModel
+      .findByIdAndUpdate(id, userUpdated, {
+        new: true,
+        runValidators: true,
+      })
+      .then((res) => {
+        if (res) return { result: 'Atualizado com sucesso!' };
+        else return { result: 'Não foi possível atualizar.' };
+      });
   }
 }
