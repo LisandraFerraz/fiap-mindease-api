@@ -9,4 +9,7 @@ export class ChecklistData {
 
   @Prop()
   completed: boolean;
+
+  @Prop()
+  lastUpdated: Date;
 }

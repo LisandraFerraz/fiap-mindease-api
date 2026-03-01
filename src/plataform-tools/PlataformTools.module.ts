@@ -11,6 +11,8 @@ import { StickyNoteService } from './services/sticky-note.service';
 import { StickyNoteController } from './controllers/sticky-note.controller';
 import { ChecklistController } from './controllers/checklist.controller';
 import { ChecklistService } from './services/checklist.service';
+import { NotificationsController } from './controllers/notifications.controller';
+import { NotificationsService } from './services/notifications.service';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { ChecklistService } from './services/checklist.service';
     KanbanService,
     StickyNoteService,
     ChecklistService,
+    NotificationsService,
   ],
   controllers: [
     PlataformToolsController,
@@ -31,6 +34,7 @@ import { ChecklistService } from './services/checklist.service';
     KanbanController,
     StickyNoteController,
     ChecklistController,
+    NotificationsController,
   ],
   exports: [PlataformService],
 })

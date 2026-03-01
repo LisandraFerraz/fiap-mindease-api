@@ -38,4 +38,7 @@ export class ChecklistDataDTO {
   @IsBoolean()
   @IsNotEmpty()
   completed: boolean;
+
+  @IsNotEmpty()
+  lastUpdated: Date;
 }

@@ -144,8 +144,6 @@ export class StickyNoteService {
           : sn,
     );
 
-    console.log(updatedStickyNotesGroup);
-
     const body = {
       ...data.toObject(),
       stickyNotes: updatedStickyNotesGroup,

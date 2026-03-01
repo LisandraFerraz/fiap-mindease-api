@@ -8,6 +8,7 @@ import { ChecklistDTO } from './checklist.dto';
 import { StickyNoteDTO, StickyNotesGroupDTO } from './sticky-note.dto';
 import { KanbanDataDTO } from './kanban.dto';
 import { PomodoroDataDTO } from './pomodoro.dto';
+import { NotificationsDTO } from './notifications.dto';
 
 export class PlataformToolsDTO {
   @IsString()
@@ -29,4 +30,8 @@ export class PlataformToolsDTO {
   @ValidateNested()
   @IsOptional()
   checklist: ChecklistDTO[];
+
+  @ValidateNested()
+  @IsOptional()
+  readNotificationsOfItems: string[];
 }

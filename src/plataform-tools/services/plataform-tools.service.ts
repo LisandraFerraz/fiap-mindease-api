@@ -52,6 +52,7 @@ export class PlataformService {
       kanbanData: [],
       stickyNotes: [],
       checklist: [],
+      readNotificationsOfItems: [],
     };
 
     return await this.plataformModel.create(body);

@@ -6,6 +6,7 @@ import {
   StickyNotesGroupSchema,
 } from './sticky-note.schema';
 import { ChecklistSchema } from './checklist.schema';
+import { NotificationsDTO } from '../dto/notifications.dto';
 
 @Schema({
   timestamps: true,
@@ -25,6 +26,9 @@ export class PlataformToolSchema {
 
   @Prop()
   checklist: ChecklistSchema[];
+
+  @Prop()
+  readNotificationsOfItems: string[];
 }
 
 export type PlataformDocument = PlataformToolSchema & Document;
