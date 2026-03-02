@@ -22,4 +22,7 @@ export class KanbanDataSchema {
 
   @Prop()
   description: string;
+
+  @Prop()
+  dayCountMessage: string;
 }

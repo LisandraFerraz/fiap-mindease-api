@@ -34,17 +34,7 @@ export class NotificationsService {
         const remainingD = GetDaysCount(kb.dueDate, true);
         const isRead = platData.readNotificationsOfItems.includes(kb!.id);
 
-        if (remainingD <= 2 && !isRead) {
-          notification = {
-            id: kb.id,
-            read: false,
-            route: 'kanban',
-            title: `Sua tarefa precisa de atenção!`,
-            description: `O prazo definido para "${kb.title}" termina em ${remainingD} dias.`,
-            alertType: 'SOON',
-          };
-        }
-        if (remainingD === 1 && !isRead) {
+        if (remainingD === 0 && !isRead) {
           notification = {
             id: kb.id,
             read: false,
@@ -54,15 +44,25 @@ export class NotificationsService {
             alertType: 'TODAY',
           };
         }
-        if (remainingD <= 0) {
-          const expiredDays = (remainingD - 1) * -1;
+        if (remainingD < 0 && !isRead) {
+          const expiredDays = remainingD * -1;
           notification = {
             id: kb.id,
             read: false,
             route: 'kanban',
             title: `O prazo acabou...`,
-            description: `O prazo definido para "${kb.title}" expirou há ${expiredDays} dias!`,
+            description: `O prazo definido para "${kb.title}" expirou há ${expiredDays} dia(s)!`,
             alertType: 'EXPIRED',
+          };
+        }
+        if (remainingD > 0 && remainingD <= 2 && !isRead) {
+          notification = {
+            id: kb.id,
+            read: false,
+            route: 'kanban',
+            title: `Sua tarefa precisa de atenção!`,
+            description: `O prazo definido para "${kb.title}" termina em ${remainingD} dia(s).`,
+            alertType: 'SOON',
           };
         }
 

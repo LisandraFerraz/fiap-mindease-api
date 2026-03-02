@@ -25,4 +25,8 @@ export class KanbanDataDTO {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  dayCountMessage: string;
 }

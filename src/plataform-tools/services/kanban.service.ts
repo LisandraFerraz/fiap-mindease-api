@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PlataformToolSchema } from '../plataform-tools.schema/plataform-tools.schema';
 import mongoose from 'mongoose';
 import { KanbanDataDTO } from '../dto/kanban.dto';
-import { FormatKanbanColumns } from '../utils/format-kanban-columns';
+import { DefineDaysLeft, FormatKanbanColumns } from '../utils/format-kanban';
+import { KanbanDataSchema } from '../plataform-tools.schema/kanban.schema';
 
 @Injectable()
 export class KanbanService {

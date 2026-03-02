@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { NotificationsService } from '../services/notifications.service';
 
 @Controller('tools')
@@ -10,7 +10,7 @@ export class NotificationsController {
     return await this.notificationService.getNotifications(id);
   }
 
-  @Patch(':id/notifications/atualizar/:notifId')
+  @Delete(':id/notifications/atualizar/:notifId')
   async updateNotification(
     @Param('id') id: string,
     @Param('notifId') notifId: string,
