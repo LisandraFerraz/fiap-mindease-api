@@ -31,17 +31,17 @@ export class NotificationsService {
 
         if (exceptionDue.includes(kb.status)) return;
 
-        const remainingD = GetDaysCount(kb.dueDate);
+        const remainingD = GetDaysCount(kb.dueDate, true);
         const isRead = platData.readNotificationsOfItems.includes(kb!.id);
 
-        if (remainingD < 3 && !isRead) {
+        if (remainingD <= 2 && !isRead) {
           notification = {
             id: kb.id,
             read: false,
             route: 'kanban',
-            title: `[Kanban] Sua tarefa precisa de atenção!`,
+            title: `Sua tarefa precisa de atenção!`,
             description: `O prazo definido para "${kb.title}" termina em ${remainingD} dias.`,
-            alertType: 'WARN',
+            alertType: 'SOON',
           };
         }
         if (remainingD === 1 && !isRead) {
@@ -49,9 +49,20 @@ export class NotificationsService {
             id: kb.id,
             read: false,
             route: 'kanban',
-            title: `[Kanban] O prazo expira hoje!`,
+            title: `O prazo expira hoje!`,
             description: `O prazo de "${kb.title}" termina hoje!.`,
-            alertType: 'SEVERE',
+            alertType: 'TODAY',
+          };
+        }
+        if (remainingD <= 0) {
+          const expiredDays = (remainingD - 1) * -1;
+          notification = {
+            id: kb.id,
+            read: false,
+            route: 'kanban',
+            title: `O prazo acabou...`,
+            description: `O prazo definido para "${kb.title}" expirou há ${expiredDays} dias!`,
+            alertType: 'EXPIRED',
           };
         }
 
@@ -80,17 +91,19 @@ export class NotificationsService {
         if (cl) {
           let notification;
 
-          const daysCount = GetDaysCount(cl?.lastUpdated);
+          let daysCount = GetDaysCount(cl?.lastUpdated, false);
           const isRead = platData.readNotificationsOfItems.includes(cl!.id);
 
-          if (daysCount > 2 && !isRead) {
+          daysCount = daysCount * -1;
+
+          if (daysCount >= 2 && !isRead) {
             notification = {
               id: cl?.id,
               read: isRead,
-              route: 'kanban',
-              title: `[Checklist] To-dos esperando você.`,
+              route: 'lista-de-tarefas',
+              title: `To-dos esperando você.`,
               description: `Existem itens na checklist "${cl?.checklistName}" em aberto há ${daysCount} dias.`,
-              alertType: 'WARN',
+              alertType: 'SOON',
             };
           }
 
@@ -140,8 +153,6 @@ export class NotificationsService {
         `Conjunto de ferramentas não existe. ID ${platId}`,
       );
     }
-
-    console.log('body :: ', itemsId);
 
     const newReadFiltered = itemsId.filter(
       (nt) => !platData.readNotificationsOfItems.includes(nt),

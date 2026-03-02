@@ -4,4 +4,4 @@ export type kanbanStatus = 'BACKLOG' | 'AFAZER' | 'ANDAMENTO' | 'CONCLUIDO';
 
 export type kanbanPriority = 'BAIXO' | 'MEDIO' | 'ALTO';
 
-export type alertType = 'WARN' | 'SEVERE';
+export type alertType = 'EXPIRED' | 'SOON' | 'TODAY';
