@@ -9,6 +9,7 @@ import { User } from './../user/schema/user/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PlataformService } from 'src/plataform-tools/services/plataform-tools.service';
+import { RegisterUserDTO } from 'src/user/dto/register-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -36,8 +37,7 @@ export class AuthService {
         this.configService.get<string>('JWT_SECRET'),
       );
     }
-
-    return { _id: user._id };
+    return { user, _id: user._id };
   }
 
   async loginUser(user: any) {
@@ -50,6 +50,7 @@ export class AuthService {
       accessToken: this.jwtService.sign(payload),
       platToolsId: plataformTools.platToolsId,
       usuarioId: payload.id,
+      userName: user.nome,
     };
   }
 
