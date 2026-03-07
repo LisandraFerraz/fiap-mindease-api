@@ -47,6 +47,8 @@ export function DefineDaysLeft(data: KanbanDataDTO) {
 
     if (daysCount === 0) message = 'Vence hoje!';
 
+    if (daysCount === 1) message = 'Vence amanhã';
+
     if (daysCount > 1) message = `Restam ${daysCount} dias`;
 
     return message;
