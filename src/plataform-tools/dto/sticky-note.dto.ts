@@ -1,4 +1,9 @@
-import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { stickyNoteColor } from '../utils/types';
 
 export class StickyNotesGroupDTO {
@@ -31,4 +36,8 @@ export class StickyNoteDTO {
   @IsNotEmpty()
   @IsString()
   color: stickyNoteColor;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  isFavorite: boolean;
 }

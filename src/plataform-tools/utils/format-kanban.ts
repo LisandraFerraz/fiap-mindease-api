@@ -54,3 +54,35 @@ export function DefineDaysLeft(data: KanbanDataDTO) {
     return message;
   }
 }
+
+export function DefineTodosExpireSoon(data: KanbanDataDTO[]) {
+  let expireList: any = [];
+
+  if (data) {
+    expireList = data
+      .map((item: KanbanDataDTO) => {
+        if (!DefineDashboardTodos(item)) return;
+        return {
+          ...item,
+          dayCountMessage: DefineDashboardTodos(item),
+        };
+      })
+      .filter(Boolean) as KanbanDataDTO[];
+  }
+  return expireList;
+}
+
+export function DefineDashboardTodos(data: KanbanDataDTO) {
+  const exceptionDue = ['CONCLUIDO', 'BACKLOG'];
+
+  if (!exceptionDue.includes(data.status)) {
+    const daysCount = GetDaysCount(data.dueDate, true);
+    let message = '';
+
+    if (daysCount > 1) message = `${daysCount} dias`;
+    if (daysCount === 1) message = `1 dia`;
+    if (daysCount === 0) message = 'Hoje';
+
+    return message;
+  }
+}

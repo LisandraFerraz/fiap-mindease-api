@@ -28,4 +28,7 @@ export class StickyNoteDataSchema {
 
   @Prop()
   color: stickyNoteColor;
+
+  @Prop()
+  isFavorite: boolean;
 }
