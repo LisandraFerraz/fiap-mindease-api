@@ -39,7 +39,7 @@ export class StickyNoteController {
       id: generateUID(),
       color: 'BLUE',
       title: 'Novo post-it',
-      description: 'Sem descrição...',
+      description: 'Sem descrição',
     } as StickyNoteDTO;
 
     const newGroup = await this.stickyNoteService.addStickyNote(
