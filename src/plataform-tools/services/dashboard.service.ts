@@ -24,18 +24,66 @@ export class DashboardService {
       );
 
     const kanbanItems = platData.kanbanData;
-    const stickyNotes = platData.stickyNotes;
+    const stickyNotes = platData.stickyNotes.flatMap((sn) => sn.data);
+    const checklistItems = platData.checklist.flatMap((cl) => cl.data);
 
-    const allStickyNotes = stickyNotes.flatMap((sg) => sg.data);
+    const buildGraphStats = (
+      items: any[],
+      labelKey: string,
+      statusKey: string,
+      statusValue: any,
+    ) => {
+      const notDone = items.filter(
+        (item) => item[statusKey] !== statusValue,
+      ).length;
+      const done = items.filter(
+        (item) => item[statusKey] === statusValue,
+      ).length;
+      return { notDone, done, label: labelKey };
+    };
 
-    let kanbanToExpire = DefineTodosExpireSoon(kanbanItems).slice();
-    let favoriteStickyNotes = allStickyNotes.filter(
-      (sn: StickyNoteDTO) => sn.isFavorite,
+    const kanbanStats = buildGraphStats(
+      kanbanItems,
+      'Kanban',
+      'status',
+      'CONCLUIDO',
+    );
+    const checklistStats = buildGraphStats(
+      checklistItems,
+      'Checklist',
+      'completed',
+      true,
     );
 
+    const graphData = [
+      {
+        left: kanbanStats.notDone,
+        leftBarLabel: `${kanbanStats.notDone}`,
+        rightBarLabel: `${kanbanStats.done}`,
+        right: kanbanStats.done,
+        midAxisLabel: kanbanStats.label,
+      },
+      {
+        left: checklistStats.notDone,
+        leftBarLabel: `${checklistStats.notDone}`,
+        rightBarLabel: `${checklistStats.done}`,
+        right: checklistStats.done,
+        midAxisLabel: checklistStats.label,
+      },
+    ];
+
+    let kanbanToExpire = DefineTodosExpireSoon(kanbanItems);
     kanbanToExpire =
       kanbanToExpire.length > 4 ? kanbanToExpire.slice(0, 4) : kanbanToExpire;
 
-    return;
+    let favoriteStickyNotes = stickyNotes.filter(
+      (sn: StickyNoteDTO) => sn.isFavorite,
+    );
+
+    return {
+      graphData,
+      kanbanToExpire,
+      favoriteStickyNotes,
+    };
   }
 }
