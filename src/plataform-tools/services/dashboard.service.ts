@@ -24,8 +24,18 @@ export class DashboardService {
       );
 
     const kanbanItems = platData.kanbanData;
-    const stickyNotes = platData.stickyNotes.flatMap((sn) => sn.data);
+    const parsedStickyNotes = platData.stickyNotes.flatMap((sn) => sn.data);
     const checklistItems = platData.checklist.flatMap((cl) => cl.data);
+
+    const stickyNotes = parsedStickyNotes.map((sn) => {
+      return {
+        ...sn,
+        description:
+          sn.description.length >= 100
+            ? sn.description.slice(0, 100)
+            : sn.description,
+      };
+    });
 
     const buildGraphStats = (
       items: any[],

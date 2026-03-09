@@ -91,10 +91,14 @@ export class StickyNoteService {
             `Já existe um item com o ID ${dataBody.id} nesse grupo de post-its ${id}`,
           );
         }
+        const noteParsed = {
+          ...dataBody,
+          description: dataBody.description.replace(/\r\n|\n|\r/gm, ''),
+        } as StickyNoteDTO;
 
         return {
           ...stickyNotesGroup,
-          data: [...stickyNotesGroup.data, dataBody],
+          data: [...stickyNotesGroup.data, noteParsed],
         };
       },
     );
