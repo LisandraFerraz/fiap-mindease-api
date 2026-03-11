@@ -10,8 +10,8 @@ O MindEase WEB e Mobile depende de uma API NestJS com MongoDB. Siga os passos ab
 ### 1. Clonar o repositório da API
 
 ```bash
-git clone https://github.com/LisandraFerraz/nest-bytebank-api.git
-cd nest-bytebank-api
+git clone https://github.com/LisandraFerraz/fiap-mindease-api.git
+cd fiap-mindease-api
 ```
 
 ### 2. Instalar as dependências
@@ -62,3 +62,4 @@ npm run start:dev
 # Modo produção
 npm run start:prod
 ```
+
