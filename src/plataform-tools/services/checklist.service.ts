@@ -12,6 +12,13 @@ export class ChecklistService {
     private plataformModel: mongoose.Model<PlataformToolSchema>,
   ) {}
 
+  private formatChecklistWithCompletedItems(checklist: ChecklistDTO[]) {
+    return checklist.map((cl) => ({
+      ...cl,
+      completedItems: cl.data.filter((todo) => todo.completed).length,
+    }));
+  }
+
   async getAllChecklistItems(id: string) {
     const data = await this.plataformModel.findById(id);
 
@@ -20,7 +27,11 @@ export class ChecklistService {
         `Conjunto de ferramentas não localizada. ID ${id}`,
       );
 
-    return await { checklist: data.checklist };
+    const checklistWithCompleted = this.formatChecklistWithCompletedItems(
+      data.checklist,
+    );
+
+    return { checklist: checklistWithCompleted };
   }
 
   async createChecklist(id: string, dataBody: ChecklistDTO) {
@@ -40,7 +51,10 @@ export class ChecklistService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { checklist: data.checklist };
+        if (data)
+          return {
+            checklist: this.formatChecklistWithCompletedItems(data.checklist),
+          };
       });
   }
 
@@ -90,7 +104,10 @@ export class ChecklistService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { checklist: data.checklist };
+        if (data)
+          return {
+            checklist: this.formatChecklistWithCompletedItems(data.checklist),
+          };
       });
   }
 
@@ -133,7 +150,10 @@ export class ChecklistService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { checklist: data.checklist };
+        if (data)
+          return {
+            checklist: this.formatChecklistWithCompletedItems(data.checklist),
+          };
       });
   }
 
@@ -186,7 +206,10 @@ export class ChecklistService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { checklist: data.checklist };
+        if (data)
+          return {
+            checklist: this.formatChecklistWithCompletedItems(data.checklist),
+          };
       });
   }
 
@@ -219,7 +242,10 @@ export class ChecklistService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { checklist: data.checklist };
+        if (data)
+          return {
+            checklist: this.formatChecklistWithCompletedItems(data.checklist),
+          };
       });
   }
 
@@ -265,7 +291,10 @@ export class ChecklistService {
     return this.plataformModel
       .findByIdAndUpdate(id, body, { new: true })
       .then((data) => {
-        if (data) return { checklist: data.checklist };
+        if (data)
+          return {
+            checklist: this.formatChecklistWithCompletedItems(data.checklist),
+          };
       });
   }
 }

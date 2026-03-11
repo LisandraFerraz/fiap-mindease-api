@@ -32,7 +32,7 @@ export class DashboardService {
         ...sn,
         description:
           sn.description.length >= 100
-            ? sn.description.slice(0, 100)
+            ? sn.description.slice(0, 100) + '...'
             : sn.description,
       };
     });

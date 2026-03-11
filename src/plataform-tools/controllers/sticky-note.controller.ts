@@ -28,6 +28,19 @@ export class StickyNoteController {
     return await this.stickyNoteService.getStickyNotesGroup(id, stickyGroupId);
   }
 
+  @Post(':id/sticky-notes/search/:stickyGroupId')
+  async getFilteredStickyNotesGroup(
+    @Param('id') id: string,
+    @Param('stickyGroupId') stickyGroupId: string,
+    @Body() body: { search: string },
+  ) {
+    return await this.stickyNoteService.getFilteredStickyNotesGroup(
+      id,
+      stickyGroupId,
+      body,
+    );
+  }
+
   @Post(':id/sticky-notes/novo-sticky-note-group')
   async createStickyNotesGroup(
     @Body() body: StickyNotesGroupDTO,
