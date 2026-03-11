@@ -36,6 +36,46 @@ export class StickyNoteService {
     return await { stickyNotes: targetGroup };
   }
 
+  async getFilteredStickyNotesGroup(
+    id: string,
+    groupId: string,
+    search: { search: string },
+  ) {
+    const data = (await this.plataformModel.findById(id)) as PlataformToolsDTO;
+
+    if (!data)
+      throw new NotFoundException(
+        `Conjunto de ferramentas não localizada. ID ${id}`,
+      );
+
+    const targetGroup = data.stickyNotes.find((group) => groupId === group.id);
+
+    if (!targetGroup)
+      throw new NotFoundException(`Grupo não localizado. ID ${id}`);
+
+    if (search.search !== '') {
+      const keywords = search.search.toLowerCase().split(' ');
+
+      const notesWithFilter = targetGroup.data.filter((note) => {
+        const titleWords = note.title.toLowerCase().split(' ');
+        const descriptionWords = note.description.toLowerCase().split(' ');
+
+        return keywords.some(
+          (keyword) =>
+            titleWords.includes(keyword) || descriptionWords.includes(keyword),
+        );
+      });
+
+      const groupNotesFiltered = {
+        ...targetGroup,
+        data: notesWithFilter,
+      };
+
+      return await { stickyNotes: groupNotesFiltered };
+    }
+    return { stickyNotes: targetGroup };
+  }
+
   async createStickyNotesGroup(id: string, dataBody: StickyNotesGroupDTO) {
     const data = await this.plataformModel.findById(id);
 
@@ -91,10 +131,14 @@ export class StickyNoteService {
             `Já existe um item com o ID ${dataBody.id} nesse grupo de post-its ${id}`,
           );
         }
+        const noteParsed = {
+          ...dataBody,
+          description: dataBody.description.replace(/\r\n|\n|\r/gm, ''),
+        } as StickyNoteDTO;
 
         return {
           ...stickyNotesGroup,
-          data: [...stickyNotesGroup.data, dataBody],
+          data: [...stickyNotesGroup.data, noteParsed],
         };
       },
     );

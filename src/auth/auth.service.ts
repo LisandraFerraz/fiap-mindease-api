@@ -63,7 +63,7 @@ export class AuthService {
       );
 
     const passwordMatches = userTarget.password === body.password;
-    if (passwordMatches) return { result: 'VALIDO' };
-    else return { result: 'INVALIDO' };
+    if (passwordMatches) return { message: 'VALIDO' };
+    else return { message: 'INVALIDO' };
   }
 }

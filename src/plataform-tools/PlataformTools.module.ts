@@ -13,6 +13,7 @@ import { ChecklistController } from './controllers/checklist.controller';
 import { ChecklistService } from './services/checklist.service';
 import { NotificationsController } from './controllers/notifications.controller';
 import { NotificationsService } from './services/notifications.service';
+import { DashboardService } from './services/dashboard.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NotificationsService } from './services/notifications.service';
     StickyNoteService,
     ChecklistService,
     NotificationsService,
+    DashboardService,
   ],
   controllers: [
     PlataformToolsController,

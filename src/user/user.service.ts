@@ -47,6 +47,7 @@ export class UserService {
     if (!userTarget) {
       throw new NotFoundException(`Usuário id ${id} não foi encontrado.`);
     }
+
     const userUpdated = {
       ...userTarget,
       updateBody,
